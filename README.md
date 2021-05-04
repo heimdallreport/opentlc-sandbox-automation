@@ -7,8 +7,17 @@ The purpose of this tool is not automate the sandbox provising (see AgnosticD fo
 to provide a simple and fast way to generate a custom install-config.yaml and AWS credential file, 
 download the necessary binaries and start the installation.
 
+## Prerequisites
+Ansible must be installed on the system. Supported systems are Linux and Mac OS.
 ## How to use
-When OpenTLC provisioning is complete, a mail is sent to the requesting user with 
+First, go to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox.
+  
+
+<img src="opentlc_order.png" alt="opentlc" width=1024>
+  
+
+Complete the request form by submitting the order reason and the provisioning region.
+When OpenTLC provisioning is complete, a mail will be sent to the requesting user with 
 informations about the temporary Sandbox environment.
 
 Run the playbook locally:
@@ -18,7 +27,7 @@ $ ansible-playbook deploy.yaml
 
 Ansible will prompt for **sudo** password to install the binaries under `/usr/local/bin`.
 
-Users are expected to provide the following details, available from the e-mail, when prompted:
+Users are expected to provide the following mandatory informations, prompted during the playbook execution.
 - **base_domain**: the sandbox base domain that will be used to expose APIs and Ingress
 - **aws_access_key_id**: the AWS acces key id available in the received e-mail.
 - **aws_secret_access_key**: the AWS secret access key available in the received e-mail.
