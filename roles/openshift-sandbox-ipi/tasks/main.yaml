@@ -1,0 +1,58 @@
+---
+- name: Create AWS credentials file
+  template:
+    src: templates/aws_credentials.j2
+    dest: ~/.aws/credentials
+    mode: 0664
+    backup: yes
+
+- name: Create installation directory
+  file:
+    state: directory
+    path: "{{ install_dir }}"
+
+- name: Template out install-config.yaml file
+  template:
+    src: templates/install-config.yaml.j2
+    dest: "{{ install_dir }}/install-config.yaml"
+
+- name: Unarchive openshift-install binary for Mac OS
+  unarchive:
+    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-mac.tar.gz
+    dest: "{{ installer_path }}"
+    remote_src: yes
+  become: true
+  when: ansible_facts['distribution'] == 'MacOSX'
+
+- name: Unarchive openshift-install binary for Linux systems
+  unarchive:
+    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
+    dest: "{{ installer_path }}"
+    remote_src: yes
+  become: true
+  when: ansible_facts['system'] == 'Linux'
+
+- name: Unarchive openshift client binary for Mac OS
+  unarchive:
+    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-mac.tar.gz
+    dest: "{{ installer_path }}"
+    remote_src: yes
+  become: true
+  when: ansible_facts['distribution'] == 'MacOSX'
+
+- name: Unarchive openshift client binary for Linux systems
+  unarchive:
+    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
+    dest: "{{ installer_path }}"
+    remote_src: yes
+  become: true
+  when: ansible_facts['system'] == 'Linux'
+
+- name: Run openshift-install
+  command: "{{ installer_path }}/openshift-install create cluster --dir {{ install_dir }}"
+
+- name: Display installation log
+  debug:
+    var: item
+  with_file:
+    - "{{ install_dir }}/.openshift_install.log"

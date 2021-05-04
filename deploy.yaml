@@ -1,0 +1,30 @@
+---
+- name: OpenTLC Sandbox provisioning automation for OpenShift 4
+  hosts: localhost
+  gather_facts: true
+  vars_files:
+    - cluster_config.yaml
+  vars_prompt:
+    - name: base_domain
+      prompt: "Please enter OpenTLC sandbox base domain notified by e-mail"
+      private: no
+    - name: aws_access_key_id
+      prompt: "Please enter the generated AWS access key notified by e-mail"
+      private: no
+    - name: aws_secret_access_key
+      prompt: "Please enter the generated AWS secret key notified by e-mail"
+      private: no
+    - name: pull_secret
+      prompt: "Please enter Red Hat pull secret"
+      private: no
+    - name: ssh_key
+      prompt: "Please enter your public SSH key"
+      private: no
+    - name: install_dir
+      prompt: "Please select a local directory to hold installation files"
+      private: no
+  tasks:
+    - name: Import provisioning role
+      import_role:
+        name: openshift-sandbox-ipi
+

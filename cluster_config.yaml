@@ -1,0 +1,7 @@
+---
+cluster_name: ocp4
+master_flavor: m5.xlarge
+worker_flavor: m5.large
+worker_replicas: 3
+aws_region: eu-central-1
+
