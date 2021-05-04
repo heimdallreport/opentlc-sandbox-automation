@@ -1,7 +1,26 @@
 ---
+# Cluster name
 cluster_name: ocp4
+
+# Sizing of master nodes
 master_flavor: m5.xlarge
+
+# Sizing of worker nodes. 
 worker_flavor: m5.large
+
+# Number or worker replicas.
 worker_replicas: 3
+
+# AWS install region
 aws_region: eu-central-1
+
+# Network type. Supported values: OpenShiftSDN, OVNKubernetes
+network_type: OpenShiftSDN
+
+# The service network used top allocate service vips. To test Submariner 
+# multicluster connectivity be sure to use diffrenet CIDRs.
+service_network: 172.30.0.0/16
+
+# Enable FIPS mode
+fips_enabled: false
 

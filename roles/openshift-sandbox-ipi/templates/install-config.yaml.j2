@@ -25,13 +25,14 @@ networking:
     hostPrefix: 23
   machineNetwork:
   - cidr: 10.0.0.0/16
-  networkType: OpenShiftSDN
+  networkType: {{ network_type }}
   serviceNetwork:
-  - 172.30.0.0/16
+  - {{ service_network | ansible.netcommon.ipsubnet }}
 platform:
   aws:
     region: {{ aws_region }}
 publish: External
+fips: {{ fips_enabled }}
 pullSecret: '{{ pull_secret }}'
 sshKey: |
   {{ ssh_key }}

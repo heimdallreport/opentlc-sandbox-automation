@@ -8,7 +8,8 @@ to provide a simple and fast way to generate a custom install-config.yaml and AW
 download the necessary binaries and start the installation.
 
 ## Prerequisites
-Ansible must be installed on the system. Supported systems are Linux and Mac OS.
+Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS.
+
 ## How to use
 First, go to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox.
   
@@ -39,13 +40,33 @@ Users are expected to provide the following mandatory informations, prompted dur
 Optionally, users can customize clusters by editing the `cluster_config.yaml`.
 For example if a different flavor for worker nodes is necessary.
 Available extra configs, with their predefined values, are:
+
 ```
 ---
+# Cluster name
 cluster_name: ocp4
+
+# Sizing of master nodes
 master_flavor: m5.xlarge
+
+# Sizing of worker nodes.
 worker_flavor: m5.large
+
+# Number or worker replicas.
 worker_replicas: 3
+
+# AWS install region
 aws_region: eu-central-1
+
+# Network type. Supported values: OpenShiftSDN, OVNKubernetes
+network_type: OpenShiftSDN
+
+# The service network used top allocate service vips. To test Submariner
+# multicluster connectivity be sure to use diffrenet CIDRs.
+service_network: 172.30.0.0/16
+
+# Enable FIPS mode
+fips_enabled: false
 ```
 
 ## Maintainers
