@@ -8,16 +8,34 @@ to provide a simple and fast way to generate a custom install-config.yaml and AW
 download the necessary binaries and start the installation.
 
 ## Prerequisites
-Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS.
+Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS.  
+
+The following Ansible Collections are required:
+- `ansible.netcommon`, used to apply IP filtering
+- `kubernetes.core`, used to test installation results
+
+To install them:
+```
+$ ansible-galaxy collection install -r requirements.yml
+```
 
 ## How to use
-First, go to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox.
-  
+First, loging to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox under  
+```
+Services ->  
+    Catalog ->  
+        OPENTLC OpenShift 4 Labs ->  
+            OpenShift 4 Installation Lab
+```      
+
 
 <img src="opentlc_order.png" alt="opentlc" width=1024>
-  
 
-Complete the request form by submitting the order reason and the provisioning region.
+
+Click on the **Order** button and complete the request form by submitting the order the lab reason, 
+the provisioning AWS region and by accepting terms and conditions. Remember that all OpenTLC labs are time 
+constrained and will be destroyed after a variable amount of time (usually 4/5 working days).
+
 When OpenTLC provisioning is complete, a mail will be sent to the requesting user with 
 informations about the temporary Sandbox environment.
 
@@ -26,15 +44,16 @@ Run the playbook locally:
 $ ansible-playbook deploy.yaml
 ```
 
-Ansible will prompt for **sudo** password to install the binaries under `/usr/local/bin`.
+Ansible will prompt for **sudo** password to install the latest `oc` and `openshift-install` 
+binaries under the `/usr/local/bin` path.
 
 Users are expected to provide the following mandatory informations, prompted during the playbook execution.
-- **base_domain**: the sandbox base domain that will be used to expose APIs and Ingress
-- **aws_access_key_id**: the AWS acces key id available in the received e-mail.
-- **aws_secret_access_key**: the AWS secret access key available in the received e-mail.
-- **pull_secret**: the Red Hat pull secret necessary to pull the cluster images
-- **ssh_key**: the public SSH key that will be injected in the nodes
-- **install_dir**: the installation directory where install files and logs will be created
+- `base_domain`: the sandbox base domain that will be used to expose APIs and Ingress
+- `aws_access_key_id`: the AWS acces key id available in the received e-mail.
+- `aws_secret_access_key`: the AWS secret access key available in the received e-mail.
+- `pull_secret`: the Red Hat pull secret necessary to pull the cluster images
+- `ssh_key`: the public SSH key that will be injected in the nodes
+- `install_dir`: the installation directory where install files and logs will be created
 
 ### Optional Extra Configs
 Optionally, users can customize clusters by editing the `cluster_config.yaml`.
