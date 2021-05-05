@@ -61,13 +61,12 @@ SSH password: xxxxxxxxxx
 **IMPORTANT**: Remember that all OpenTLC labs are time constrained and will be destroyed after a variable amount of time (usually 4/5 working days).
   
 
-
+### Cluster deployment
 After receiving the informations run the cluster deploy playbook locally:
 ```
 $ ansible-playbook cluster_deploy.yaml
 ```
   
-
 Ansible will prompt for **sudo** password to install the latest `oc` and `openshift-install` 
 binaries under the `/usr/local/bin` path.
 
@@ -78,6 +77,26 @@ Users are expected to provide the following mandatory informations, prompted dur
 - `pull_secret`: the Red Hat pull secret necessary to pull the cluster images
 - `ssh_key`: the public SSH key that will be injected in the nodes
 - `install_dir`: the installation directory where install files and logs will be created
+
+After the installation login to the cluster using the provided informations 
+in the Ansible output or in the `.openshift_install.log` file in the installation
+directory.
+
+Under `install_dir/auth` the installation deploy the `kubeconfig` file.
+
+### Cluster destroy
+The OpenTLC labs use AWS sandboxes for demo and training purposes but it is
+important to avoid unnecessary compute resource usage, for cost and 
+environmental reasons. After finishing using a cluster destroy it using
+the follwing command:
+
+```
+$ ansible-playbook cluster_destroy.yaml
+```
+
+The `install_path` variable will be prompted again to confirm the previous
+installation directory.
+
 
 ### Optional Extra Configs
 Optionally, users can customize clusters by editing the `cluster_config_vars.yaml`.

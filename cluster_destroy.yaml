@@ -1,0 +1,20 @@
+---
+- name: Destroy OpenShift 4 cluster on OpenTLC
+  hosts: localhost
+  gather_facts: true
+  vars_files:
+    - cluster_config_vars.yaml
+  vars_prompt:
+    - name: install_dir
+      prompt: "Please select a local directory holding installation files"
+      private: no
+  tasks:
+    - name: Fail when install_dir variable is empty
+      fail:
+        msg: Missing install dir variable
+      when: install_dir == ""
+
+    - name: Import provisioning role
+      import_role:
+        name: openshift-sandbox-ipi
+        tasks_from: destroy
