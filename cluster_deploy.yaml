@@ -10,21 +10,54 @@
       private: no
     - name: aws_access_key_id
       prompt: "Please enter the generated AWS access key notified by e-mail"
+      unsafe: yes
       private: no
     - name: aws_secret_access_key
       prompt: "Please enter the generated AWS secret key notified by e-mail"
+      unsafe: yes
       private: no
     - name: pull_secret
       prompt: "Please enter Red Hat pull secret"
+      unsafe: yes
       private: no
     - name: ssh_key
       prompt: "Please enter your public SSH key"
+      unsafe: yes
       private: no
     - name: install_dir
       prompt: "Please select a local directory to hold installation files"
       private: no
   tasks:
+    - name: Fail when pull_secret variable is empty
+      fail:
+        msg: Missing pull secret variable
+      when: pull_secret == ""
+    - name: Fail when aws_access_key_id variable is empty
+      fail:
+        msg: Missing AWS access key id variable
+      when: aws_access_key_id == ""
+    - name: Fail when aws_secret_access_key variable is empty
+      fail:
+        msg: Missing AWS secret access key variable
+      when: aws_secret_access_key == ""
+    - name: Fail when ssh_key variable is empty
+      fail:
+        msg: Missing SSH public key variable
+      when: ssh_key == ""
+    - name: Fail when install_dir variable is empty
+      fail:
+        msg: Missing install dir variable
+      when: install_dir == ""
     - name: Import provisioning role
       import_role:
         name: openshift-sandbox-ipi
-
+    - name: Check cluster version
+      kubernetes.core.k8s_info:
+        kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+        host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+        api_version: config.openshift.io/v1
+        kind: ClusterVersion
+      register: cluster_info
+    - name: Display cluster info
+      debug:
+        var: cluster_info.resources

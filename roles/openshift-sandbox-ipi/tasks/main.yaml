@@ -62,18 +62,6 @@
   retries: 120
   delay: 30
 
-- name: Test cluster availability
-  kubernetes.core.k8s_info:
-    kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}"
-    api_version: v1
-    kind: Node
-  register: nodes_info
-
-- name: Display nodes info
-  debug:
-    var: nodes_info
-
 - name: Display installation log
   debug:
     var: item
