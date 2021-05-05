@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: true
   vars_files:
-    - cluster_config.yaml
+    - cluster_config_vars.yaml
   vars_prompt:
     - name: base_domain
       prompt: "Please enter OpenTLC sandbox base domain notified by e-mail"

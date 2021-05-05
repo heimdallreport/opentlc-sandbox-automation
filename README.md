@@ -30,19 +30,43 @@ Services ->
 
 
 <img src="opentlc_order.png" alt="opentlc" width=1024>
-
-
+  
+  
 Click on the **Order** button and complete the request form by submitting the order the lab reason, 
-the provisioning AWS region and by accepting terms and conditions. Remember that all OpenTLC labs are time 
-constrained and will be destroyed after a variable amount of time (usually 4/5 working days).
+the provisioning AWS region and by accepting terms and conditions. 
+  
 
-When OpenTLC provisioning is complete, a mail will be sent to the requesting user with 
+<img src="opentlc_form.png" alt="form" width=1024>
+  
+
+
+When OpenTLC provisioning is complete, an e-mail will be sent to the requesting user with 
 informations about the temporary Sandbox environment.
 
-Run the playbook locally:
+The important informations in the OpenTLC e-mails appear as follows:
 ```
-$ ansible-playbook deploy.yaml
+Here is some important information about your environment:
+
+Top level domain: .sandboxNNN.opentlc.com
+
+WARNING: with great power comes great responsibility. We monitor usage.
+Your AWS programmatic access:
+aws_access_key_id = XXXXXXXXXXXXXXXXXXXX
+aws_secret_access_key = xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+SSH Access: ssh <username>@<bastion_url>
+SSH password: xxxxxxxxxx
 ```
+
+**IMPORTANT**: Remember that all OpenTLC labs are time constrained and will be destroyed after a variable amount of time (usually 4/5 working days).
+  
+
+
+After receiving the informations run the cluster deploy playbook locally:
+```
+$ ansible-playbook cluster_deploy.yaml
+```
+  
 
 Ansible will prompt for **sudo** password to install the latest `oc` and `openshift-install` 
 binaries under the `/usr/local/bin` path.
@@ -56,7 +80,7 @@ Users are expected to provide the following mandatory informations, prompted dur
 - `install_dir`: the installation directory where install files and logs will be created
 
 ### Optional Extra Configs
-Optionally, users can customize clusters by editing the `cluster_config.yaml`.
+Optionally, users can customize clusters by editing the `cluster_config_vars.yaml`.
 For example if a different flavor for worker nodes is necessary.
 Available extra configs, with their predefined values, are:
 
