@@ -61,9 +61,3 @@
   until: job_result.finished
   retries: 120
   delay: 30
-
-- name: Display installation log
-  debug:
-    var: item
-  with_file:
-    - "{{ install_dir }}/.openshift_install.log"

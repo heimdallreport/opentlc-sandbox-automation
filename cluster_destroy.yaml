@@ -18,3 +18,9 @@
       import_role:
         name: openshift-sandbox-ipi
         tasks_from: destroy
+
+    - name: Display destroy results
+      debug:
+        msg: |
+          Destroy complete!
+          The full installation log is available on '{{ install_dir }}/.openshift_install.log'

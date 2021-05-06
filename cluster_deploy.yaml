@@ -32,25 +32,31 @@
       fail:
         msg: Missing pull secret variable
       when: pull_secret == ""
+
     - name: Fail when aws_access_key_id variable is empty
       fail:
         msg: Missing AWS access key id variable
       when: aws_access_key_id == ""
+
     - name: Fail when aws_secret_access_key variable is empty
       fail:
         msg: Missing AWS secret access key variable
       when: aws_secret_access_key == ""
+
     - name: Fail when ssh_key variable is empty
       fail:
         msg: Missing SSH public key variable
       when: ssh_key == ""
+
     - name: Fail when install_dir variable is empty
       fail:
         msg: Missing install dir variable
       when: install_dir == ""
+
     - name: Import provisioning role
       import_role:
         name: openshift-sandbox-ipi
+
     - name: Check cluster version
       kubernetes.core.k8s_info:
         kubeconfig: "{{ install_dir }}/auth/kubeconfig"
@@ -58,6 +64,16 @@
         api_version: config.openshift.io/v1
         kind: ClusterVersion
       register: cluster_info
+
     - name: Display cluster info
       debug:
-        var: cluster_info.resources
+        msg: "{{ cluster_info.resources }}"
+
+    - name: Display installation results
+      debug:
+        msg: |
+          Install complete!
+          The full installation log is available on '{{ install_dir }}/.openshift_install.log'
+          To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG={{ install_dir }}/auth/kubeconfig'
+          Access the OpenShift web-console here: https://console-openshift-console.apps.{{ cluster_name }}.{{ base_domain }}
+          Login to the console with user 'kubeadmin' and password {{ lookup('file', '{{ install_dir }}/auth/kubeadmin-password') }}
