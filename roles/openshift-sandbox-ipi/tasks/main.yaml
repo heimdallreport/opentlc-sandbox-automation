@@ -1,4 +1,9 @@
 ---
+- name: Ensure AWS config dir exists
+  file:
+    state: directory
+    path: ~/.aws
+
 - name: Create AWS credentials file
   template:
     src: templates/aws_credentials.j2
