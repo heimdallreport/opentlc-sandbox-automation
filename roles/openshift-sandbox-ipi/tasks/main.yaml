@@ -21,43 +21,35 @@
     src: templates/install-config.yaml.j2
     dest: "{{ install_dir }}/install-config.yaml"
 
+- name: Set platform facts for Mac OS
+  set_fact:
+    platform: mac
+  when: ansible_facts['distribution'] == 'MacOSX'
+
+- name: Set platform facts for Linux
+  set_fact:
+    platform: linux
+  when: ansible_facts['system'] == 'Linux'
+
 - name: Install GNU Tar on Mac OS
   homebrew:
     name: gnu-tar
     state: latest
   when: ansible_facts['distribution'] == 'MacOSX'
 
-- name: Unarchive openshift-install binary for Mac OS
+- name: Unarchive openshift-install binary
   unarchive:
-    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-mac.tar.gz
+    src: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-{{ platform }}.tar.gz"
     dest: "{{ installer_path }}"
     remote_src: yes
   become: true
-  when: ansible_facts['distribution'] == 'MacOSX'
 
-- name: Unarchive openshift-install binary for Linux systems
+- name: Unarchive openshift client binary
   unarchive:
-    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-install-linux.tar.gz
+    src: "https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-{{ platform }}.tar.gz"
     dest: "{{ installer_path }}"
     remote_src: yes
   become: true
-  when: ansible_facts['system'] == 'Linux'
-
-- name: Unarchive openshift client binary for Mac OS
-  unarchive:
-    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-mac.tar.gz
-    dest: "{{ installer_path }}"
-    remote_src: yes
-  become: true
-  when: ansible_facts['distribution'] == 'MacOSX'
-
-- name: Unarchive openshift client binary for Linux systems
-  unarchive:
-    src: https://mirror.openshift.com/pub/openshift-v4/x86_64/clients/ocp/latest/openshift-client-linux.tar.gz
-    dest: "{{ installer_path }}"
-    remote_src: yes
-  become: true
-  when: ansible_facts['system'] == 'Linux'
 
 - name: Run openshift-install
   command: "{{ installer_path }}/openshift-install create cluster --dir {{ install_dir }}"
