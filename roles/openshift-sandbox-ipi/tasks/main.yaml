@@ -25,7 +25,6 @@
   homebrew:
     name: gnu-tar
     state: latest
-  become: true
   when: ansible_facts['distribution'] == 'MacOSX'
 
 - name: Unarchive openshift-install binary for Mac OS
