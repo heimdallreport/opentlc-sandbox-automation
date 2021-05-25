@@ -12,7 +12,7 @@ Ansible 2.9+ must be installed on the system. Supported systems are Linux and Ma
 
 The following additional packages must be installed:
 - Python Netaddr to manipulate addressed (`python3-netaddr` on Fedora/RHEL)
-- Python OpenShift to access OpenShift API ('python3-openshift` on Fedora/RHEL)
+- Python OpenShift to access OpenShift API (`python3-openshift` on Fedora/RHEL)
 
 The following Ansible Collections are required:
 - `ansible.netcommon`, used to apply IP filtering
@@ -135,6 +135,14 @@ service_network: 172.30.0.0/16
 
 # Enable FIPS mode
 fips_enabled: false
+```
+
+### Debugging
+Sometimes it is useful to repeat the pre and post install tasks for debugging
+purposes without having to redeploy the cluster. To do so, skip the install task 
+using the `--skip-tags` option:
+```
+$ ansible-playbook cluster_deploy.yaml --skip-tags install
 ```
 
 ## Maintainers

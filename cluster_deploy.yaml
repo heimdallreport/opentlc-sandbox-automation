@@ -5,7 +5,7 @@
   vars_files:
     - cluster_config_vars.yaml
   vars_prompt:
-    - name: base_domain
+    - name: raw_base_domain
       prompt: "Please enter OpenTLC sandbox base domain notified by e-mail"
       private: no
     - name: aws_access_key_id
@@ -53,6 +53,10 @@
         msg: Missing install dir variable
       when: install_dir == ""
 
+    - name: Sanitize base domain
+      set_fact:
+        base_domain: "{{ raw_base_domain | regex_replace('^\\.(.*)', '\\1') }}"
+
     - name: Import provisioning role
       import_role:
         name: openshift-sandbox-ipi
@@ -62,7 +66,7 @@
     - name: Check cluster version
       kubernetes.core.k8s_info:
         kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-        host: "https://api.{{ cluster_name }}.{{ base_domain | regex_replace('^\.(.*)', '\\1') }}:6443"
+        host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
         api_version: config.openshift.io/v1
         kind: ClusterVersion
       register: cluster_info
@@ -77,5 +81,5 @@
           Install complete!
           The full installation log is available on '{{ install_dir }}/.openshift_install.log'
           To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG={{ install_dir }}/auth/kubeconfig'
-          Access the OpenShift web-console here: https://console-openshift-console.apps.{{ cluster_name }}.{{ base_domain | regex_replace('^\.(.*)', '\\1') }}
+          Access the OpenShift web-console here: https://console-openshift-console.apps.{{ cluster_name }}.{{ base_domain }}
           Login to the console with user 'kubeadmin' and password {{ lookup('file', '{{ install_dir }}/auth/kubeadmin-password') }}
