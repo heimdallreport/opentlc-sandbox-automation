@@ -60,7 +60,7 @@
     - name: Check cluster version
       kubernetes.core.k8s_info:
         kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-        host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+        host: "https://api.{{ cluster_name }}.{{ base_domain | regex_replace('^\.(.*)', '\\1') }}:6443"
         api_version: config.openshift.io/v1
         kind: ClusterVersion
       register: cluster_info
@@ -75,5 +75,5 @@
           Install complete!
           The full installation log is available on '{{ install_dir }}/.openshift_install.log'
           To access the cluster as the system:admin user when using 'oc', run 'export KUBECONFIG={{ install_dir }}/auth/kubeconfig'
-          Access the OpenShift web-console here: https://console-openshift-console.apps.{{ cluster_name }}.{{ base_domain }}
+          Access the OpenShift web-console here: https://console-openshift-console.apps.{{ cluster_name }}.{{ base_domain | regex_replace('^\.(.*)', '\\1') }}
           Login to the console with user 'kubeadmin' and password {{ lookup('file', '{{ install_dir }}/auth/kubeadmin-password') }}
