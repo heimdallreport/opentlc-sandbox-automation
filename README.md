@@ -8,7 +8,11 @@ to provide a simple and fast way to generate a custom install-config.yaml and AW
 download the necessary binaries and start the installation.
 
 ## Prerequisites
-Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS.  
+Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS. 
+
+The following additional packages must be installed:
+- Python Netaddr to manipulate addressed (`python3-netaddr` on Fedora/RHEL)
+- Python OpenShift to access OpenShift API ('python3-openshift` on Fedora/RHEL)
 
 The following Ansible Collections are required:
 - `ansible.netcommon`, used to apply IP filtering
