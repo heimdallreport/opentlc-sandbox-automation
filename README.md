@@ -18,6 +18,8 @@ The following Ansible Collections are required:
 - `ansible.netcommon`, used to apply IP filtering
 - `kubernetes.core`, used to test installation results
 
+On Mac OS **homebrew** must be installed to manage extra packages.
+
 To install them:
 ```
 $ ansible-galaxy collection install -r requirements.yml
