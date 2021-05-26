@@ -62,18 +62,12 @@
         name: openshift-sandbox-ipi
       tags:
       - install
-
-    - name: Check cluster version
-      kubernetes.core.k8s_info:
-        kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-        host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
-        api_version: config.openshift.io/v1
-        kind: ClusterVersion
-      register: cluster_info
-
-    - name: Display cluster info
-      debug:
-        msg: "{{ cluster_info.resources }}"
+    
+    - name: Import post install role
+      import_role:
+        name: openshift-post-install
+      tags:
+      - post_install
 
     - name: Display installation results
       debug:

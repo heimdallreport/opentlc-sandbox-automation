@@ -13,17 +13,19 @@ Ansible 2.9+ must be installed on the system. Supported systems are Linux and Ma
 The following additional packages must be installed:
 - Python Netaddr to manipulate addressed (`python3-netaddr` on Fedora/RHEL)
 - Python OpenShift to access OpenShift API (`python3-openshift` on Fedora/RHEL)
+- Python Passlib to generate htpasswd files (`python3-passlib` on Fedora/RHEL)
 
 The following Ansible Collections are required:
+- `community.general`, used by core modules
 - `ansible.netcommon`, used to apply IP filtering
 - `kubernetes.core`, used to test installation results
-
-On Mac OS **homebrew** must be installed to manage extra packages.
 
 To install them:
 ```
 $ ansible-galaxy collection install -r requirements.yml
 ```
+
+On Mac OS **homebrew** must be installed to manage extra packages.
 
 ## How to use
 First, loging to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox under  
@@ -105,8 +107,8 @@ installation directory.
 
 
 ### Optional Extra Configs
-Optionally, users can customize clusters by editing the `cluster_config_vars.yaml`.
-For example if a different flavor for worker nodes is necessary.
+Users can customize cluster installation configs or day two customizations by 
+editing the `cluster_config_vars.yaml`.
 Available extra configs, with their predefined values, are:
 
 ```
@@ -135,7 +137,21 @@ service_network: 172.30.0.0/16
 
 # Enable FIPS mode
 fips_enabled: false
+
+## Post Install Configs
+# HTPasswd Users. Change passwords before installing.
+htpasswd_users:
+  developer1: RedHat123!
+  developer2: RedHat123!
+
+# Install OpenShift Pipelines Operator
+pipelines_operator: true
+
+# Install OpenShift GitOps Operator
+gitops_operator: true
 ```
+
+
 
 ### Debugging
 Sometimes it is useful to repeat the pre and post install tasks for debugging

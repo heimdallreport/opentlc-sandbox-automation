@@ -24,3 +24,14 @@ service_network: 172.30.0.0/16
 # Enable FIPS mode
 fips_enabled: false
 
+## Post Install Configs
+# HTPasswd Users. Change passwords before installing.
+htpasswd_users:
+  developer1: RedHat123!
+  developer2: RedHat123!
+
+# Install OpenShift Pipelines Operator
+pipelines_operator: true
+
+# Install OpenShift GitOps Operator
+gitops_operator: true
