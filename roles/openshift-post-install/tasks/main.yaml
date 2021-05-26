@@ -37,4 +37,21 @@
     state: present
     definition: "{{ lookup('template', 'argocd_subscription.yaml.j2') | from_yaml }}"
   when: gitops_operator | bool
-  
+
+- name: Create Serverless Operator namespace
+  kubernetes.core.k8s:
+    kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    state: present
+    kind: Namespace
+    api_version: v1
+    name: openshift-serverless
+  when: serverless_operator | bool
+
+- name: Create Serverless Operator Subscription
+  kubernetes.core.k8s:
+    kubeconfig: "{{ install_dir }}/auth/kubeconfig"
+    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    state: present
+    definition: "{{ lookup('template', 'serverless_subscription.yaml.j2') | from_yaml }}"
+  when: serverless_operator | bool
