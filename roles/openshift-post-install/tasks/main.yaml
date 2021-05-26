@@ -6,6 +6,7 @@
     password: "{{ item.value }}"
     state: present
   loop: "{{ htpasswd_users | dict2items }}"
+  no_log: true
 
 - name: Create the HTPasswd secret
   kubernetes.core.k8s:
