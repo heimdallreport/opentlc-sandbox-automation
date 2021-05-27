@@ -3,7 +3,7 @@
 - name: Extract infrastructure informations
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: Infrastructure
   register: infrastructure
 
@@ -14,7 +14,7 @@
 - name: "Create OCS MachineSet on Zone {{ aws_region }}a"
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_machineset_zone_a.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -23,7 +23,7 @@
 - name: "Create OCS MachineSet on Zone {{ aws_region }}b"
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_machineset_zone_b.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -32,7 +32,7 @@
 - name: "Create OCS MachineSet on Zone {{ aws_region }}c"
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_machineset_zone_c.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -41,7 +41,7 @@
 - name: "Wait for OCS Machines bootstrap on Zone {{ aws_region }}a"
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: MachineSet
     api_version: machine.openshift.io/v1beta1
     name: "{{ infrastructure_name }}-ocs-{{ aws_region }}a"
@@ -54,7 +54,7 @@
 - name: "Wait for OCS Machines bootstrap on Zone {{ aws_region }}b"
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: MachineSet
     api_version: machine.openshift.io/v1beta1
     name: "{{ infrastructure_name }}-ocs-{{ aws_region }}b"
@@ -67,7 +67,7 @@
 - name: "Wait for OCS Machines bootstrap on Zone {{ aws_region }}c"
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: MachineSet
     api_version: machine.openshift.io/v1beta1
     name: "{{ infrastructure_name }}-ocs-{{ aws_region }}c"
@@ -80,7 +80,7 @@
 - name: Create openshift-storage namespace
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_namespace.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -89,7 +89,7 @@
 - name: Create OCS OperatorGroup
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_operatorgroup.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -98,7 +98,7 @@
 - name: Create OCS Operator Subscription
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_subscription.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -109,7 +109,7 @@
 - name: "Wait for StorageCluster CRD"
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: CustomResourceDefinition
     api_version: apiextensions.k8s.io/v1
     name: storageclusters.ocs.openshift.io
@@ -122,7 +122,7 @@
 - name: "Create OCS StorageCluster"
   kubernetes.core.k8s:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     state: present
     definition: "{{ lookup('template', 'ocs_storagecluster.yaml.j2') | from_yaml }}"
     wait_sleep: 10
@@ -131,7 +131,7 @@
 - name: "Wait for OCS StorageCluster Provisioning"
   kubernetes.core.k8s_info:
     kubeconfig: "{{ install_dir }}/auth/kubeconfig"
-    host: "https://api.{{ cluster_name }}.{{ base_domain }}:6443"
+    host: "https://api.{{ cluster_name }}.{{ sanitized_base_domain }}:6443"
     kind: StorageCluster
     api_version: ocs.openshift.io/v1
     name: "ocs-storagecluster"

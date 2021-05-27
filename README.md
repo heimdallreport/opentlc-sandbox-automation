@@ -11,9 +11,9 @@ download the necessary binaries and start the installation.
 Ansible 2.9+ must be installed on the system. Supported systems are Linux and Mac OS. 
 
 The following additional packages must be installed:
-- Python Netaddr to manipulate addressed (`python3-netaddr` on Fedora/RHEL)
-- Python OpenShift to access OpenShift API (`python3-openshift` on Fedora/RHEL)
-- Python Passlib to generate htpasswd files (`python3-passlib` on Fedora/RHEL)
+- Python Netaddr to manipulate addressed (`python3-netaddr` on Fedora/RHEL or `netaddr` if installing pip3)
+- Python OpenShift to access OpenShift API (`python3-openshift` on Fedora/RHEL or `openshift` if installing with pip3)
+- Python Passlib to generate htpasswd files (`python3-passlib` on Fedora/RHEL or `passlib` if installing with pip3)
 
 The following Ansible Collections are required:
 - `community.general`, used by core modules
@@ -78,7 +78,7 @@ $ ansible-playbook cluster_deploy.yaml
 Ansible will prompt for **sudo** password to install the latest `oc` and `openshift-install` 
 binaries under the `/usr/local/bin` path.
 
-Users are expected to provide the following mandatory informations, prompted during the playbook execution.
+Users are expected to provide the following mandatory informations in the `install_info_vars.yaml` file in order to complete the installation.
 - `base_domain`: the sandbox base domain that will be used to expose APIs and Ingress
 - `aws_access_key_id`: the AWS acces key id available in the received e-mail.
 - `aws_secret_access_key`: the AWS secret access key available in the received e-mail.
@@ -90,7 +90,7 @@ After the installation login to the cluster using the provided informations
 in the Ansible output or in the `.openshift_install.log` file in the installation
 directory.
 
-Under `install_dir/auth` the installation deploy the `kubeconfig` file.
+Under `install_dir/auth` the installation deploys the `kubeconfig` file.
 
 ### Cluster destroy
 The OpenTLC labs use AWS sandboxes for demo and training purposes but it is

@@ -1,5 +1,4 @@
 ---
-base_domain: example.com
 cluster_name: ocp4
 
 worker_flavor: m5.large
