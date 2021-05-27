@@ -4,16 +4,12 @@
   gather_facts: true
   vars_files:
     - cluster_config_vars.yaml
-    - install_vars.yaml
-  vars_prompt:
-    - name: install_dir
-      prompt: "Please select a local directory holding installation files"
-      private: no
+    - install_info_vars.yaml
   tasks:
     - name: Fail when install_dir variable is empty
       fail:
         msg: Missing install dir variable
-      when: install_dir == ""
+      when: install_dir is undefined or install_dir == ""
 
     - name: Import provisioning role
       import_role:
