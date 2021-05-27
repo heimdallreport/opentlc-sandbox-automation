@@ -4,6 +4,7 @@
   gather_facts: true
   vars_files:
     - cluster_config_vars.yaml
+    - install_vars.yaml
   vars_prompt:
     - name: install_dir
       prompt: "Please select a local directory holding installation files"
