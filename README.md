@@ -108,7 +108,9 @@ installation directory.
 
 ### Optional Extra Configs
 Users can customize cluster installation configs or day two customizations by 
-editing the `cluster_config_vars.yaml`.
+editing the `cluster_config_vars.yaml`. After the base cluster installation is
+complete users can choose to create custom users with the HTPasswd identity 
+provider or to deploy common extra operators with a simple boolean variable.
 Available extra configs, with their predefined values, are:
 
 ```
@@ -149,9 +151,13 @@ pipelines_operator: true
 
 # Install OpenShift GitOps Operator
 gitops_operator: true
+
+# Install Serverless Operator
+serverless_operator: true
+
+# Install OCS Operator
+ocs_operator: true
 ```
-
-
 
 ### Debugging
 Sometimes it is useful to repeat the pre and post install tasks for debugging
