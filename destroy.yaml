@@ -4,7 +4,7 @@
   gather_facts: true
   vars_files:
     - cluster_config_vars.yaml
-    - install_info_vars.yaml
+    - user_info.yaml
   tasks:
     - name: Fail when install_dir variable is empty
       fail:

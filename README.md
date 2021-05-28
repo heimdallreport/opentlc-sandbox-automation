@@ -15,6 +15,9 @@ The following additional packages must be installed:
 - Python OpenShift to access OpenShift API (`python3-openshift` on Fedora/RHEL or `openshift` if installing with pip3)
 - Python Passlib to generate htpasswd files (`python3-passlib` on Fedora/RHEL or `passlib` if installing with pip3)
 
+A future release will automatically handle those dependencies on the different 
+platforms.
+
 The following Ansible Collections are required:
 - `community.general`, used by core modules
 - `ansible.netcommon`, used to apply IP filtering
@@ -25,7 +28,8 @@ To install them:
 $ ansible-galaxy collection install -r requirements.yml
 ```
 
-On Mac OS **homebrew** must be installed to manage extra packages.
+### Apple users only
+On Mac OS X the **homebrew** package manager must be installed to manage extra packages.
 
 ## How to use
 First, loging to https://labs.opentlc.com to order a new **OpenShift 4 Installation Lab** sandbox under  
@@ -72,13 +76,13 @@ SSH password: xxxxxxxxxx
 ### Cluster deployment
 After receiving the informations run the cluster deploy playbook locally:
 ```
-$ ansible-playbook cluster_deploy.yaml
+$ ansible-playbook install.yaml
 ```
   
 Ansible will prompt for **sudo** password to install the latest `oc` and `openshift-install` 
 binaries under the `/usr/local/bin` path.
 
-Users are expected to provide the following mandatory informations in the `install_info_vars.yaml` file in order to complete the installation.
+Users are expected to provide the following mandatory informations in the `user_info.yaml` file in order to complete the installation.
 - `base_domain`: the sandbox base domain that will be used to expose APIs and Ingress
 - `aws_access_key_id`: the AWS acces key id available in the received e-mail.
 - `aws_secret_access_key`: the AWS secret access key available in the received e-mail.
@@ -99,11 +103,11 @@ environmental reasons. After finishing using a cluster destroy it using
 the follwing command:
 
 ```
-$ ansible-playbook cluster_destroy.yaml
+$ ansible-playbook destroy.yaml
 ```
 
-The `install_path` variable will be prompted again to confirm the previous
-installation directory.
+The `install_path` variable must be provided (again, in the `user_info.yaml` file, 
+to confirm the previously used installation directory.
 
 
 ### Optional Extra Configs
